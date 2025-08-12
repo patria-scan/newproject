@@ -166,6 +166,7 @@
     </div>
 
     <div class="container">
+        
         <div class="controls">
             <h3>¿Quién Soy?</h3>
             <select id="user-select">
@@ -198,22 +199,13 @@
         </div>
 
         <div class="controls">
-            <h3>Tipo de Expediente</h3>
-            <select id="type-select">
-                <option value="">-- Seleccionar Tipo --</option>
-                <option value="DPA">Amarillo (DPA)</option>
-                <option value="DP">Azul (DP)</option>
-            </select>
-        </div>
-
-        <div class="controls">
             <h3>Acción con el Expediente</h3>
             <select id="action-select">
                 <option value="">-- Seleccionar Acción --</option>
-                <option value="EN MI PODER">Enviado a Jurídico</option>
-                <option value="ENVIADO A TESORERIA">Enviado a Contabilidad</option>
-                <option value="ARCHIVADO">Archivo</option>
-                <option value="PASADO A LEO">Retornado a Almacén</option>
+                <option value="Enviado a Jurídico">Enviado a Jurídico</option>
+                <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
+                <option value="Archivo">Archivo</option>
+                <option value="Retornado a Almacén">Retornado a Almacén</option>
             </select>
         </div>
 
@@ -222,11 +214,11 @@
     </div>
 
     <footer>
-        © 2025 Sistema de Expedientes
+        © 2024 Sistema de Expedientes
     </footer>
 
     <script>
-        const sheetUrl = 'https://script.google.com/macros/s/AKfycbwzhPO_l36hzcgzh-N5lOGOHkxlQyPpASPZ1IosfcNbDRP9a_QAkRT3Jd6P3ozEvsADSg/exec'; // ¡REEMPLAZA ESTO!
+        const sheetUrl = 'URL_DE_TU_APPS_SCRIPT_AQUI';
         const readerDiv = document.getElementById('reader');
         const resultElement = document.getElementById('result');
         let html5QrcodeScanner;
@@ -234,12 +226,14 @@
         function onScanSuccess(decodedText, decodedResult) {
             console.log(`QR detectado: ${decodedText}`);
 
+            const sheetName = "EXP SD-2025";
             const user = document.getElementById('user-select').value;
-            const type = document.getElementById('type-select').value;
             const action = document.getElementById('action-select').value;
 
-            if (!user || !type || !action) {
-                resultElement.textContent = "Error: Por favor, selecciona un nombre, tipo y acción.";
+            // La variable 'tipo' ya no se lee del formulario, por lo que no es necesaria aquí.
+
+            if (!user || !action) {
+                resultElement.textContent = "Error: Por favor, selecciona un nombre y una acción.";
                 resultElement.className = 'error';
                 return;
             }
@@ -252,9 +246,9 @@
             fetch(sheetUrl, {
                 method: 'POST',
                 body: JSON.stringify({
+                    sheetName: sheetName,
                     row: decodedText,
                     nombre: user,
-                    tipo: type,
                     accion: action
                 }),
                 headers: {
