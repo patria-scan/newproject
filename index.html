@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Actualización de Expedientes</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0d2647;
+            background-color: #1a4987;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -16,14 +16,30 @@
             justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
-            padding-top: 60px;
+            padding-top: 80px;
             box-sizing: border-box;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1a4987;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .logo {
+            height: 50px;
         }
 
         h1 {
             color: #fff;
-            margin-bottom: 30px;
-            font-size: 2.2em;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 2.0em;
             font-weight: 600;
         }
 
@@ -31,7 +47,7 @@
             background-color: #19376d;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            padding: 40px;
+            padding: 30px;
             margin-bottom: 40px;
             width: 90%;
             max-width: 500px;
@@ -39,22 +55,22 @@
         }
 
         .controls {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             width: 100%;
         }
 
         h3 {
             color: #fff;
-            font-size: 1.4em;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            margin-bottom: 8px;
             font-weight: 500;
         }
 
         select {
             width: calc(100% - 20px);
-            padding: 12px;
-            font-size: 16px;
-            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 12px;
             border: 1px solid #385ba8;
             border-radius: 4px;
             background-color: #254179;
@@ -79,10 +95,10 @@
         }
 
         #result {
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: bold;
             color: #fff;
-            font-size: 1.1em;
+            font-size: 1.0em;
         }
 
         .success {
@@ -107,58 +123,86 @@
         footer {
             color: #aab8c2;
             text-align: center;
-            margin-top: 40px;
-            padding: 20px 0;
-            font-size: 0.9em;
+            margin-top: 30px;
+            padding: 15px 0;
+            font-size: 0.8em;
         }
 
         @media (max-width: 600px) {
             .container {
-                padding: 30px;
+                padding: 20px;
             }
 
             h1 {
-                font-size: 2em;
-                margin-bottom: 20px;
+                font-size: 1.8em;
+                margin-bottom: 15px;
             }
 
             .controls {
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
 
             select {
-                font-size: 14px;
-                padding: 10px;
+                font-size: 12px;
+                padding: 8px;
                 margin-bottom: 10px;
+            }
+
+            .header {
+                padding: 8px 15px;
+            }
+
+            .logo {
+                height: 40px;
             }
         }
     </style>
 </head>
 <body>
 
-    <h1>Actualización de Expedientes</h1>
+    <div class="header">
+        <img src="https://media.licdn.com/dms/image/v2/D4E0BAQFsLOaI6Rbpgg/company-logo_200_200/company-logo_200_200/0/1720100269549?e=2147483647&v=beta&t=6m63etOwKvudwcg_zDCJyNyKLX4BHuHl5ObSyqnFxyU" alt="Logo Patria" class="logo">
+        <h1>Actualización de Expedientes</h1>
+    </div>
 
     <div class="container">
         <div class="controls">
             <h3>¿Quién Soy?</h3>
             <select id="user-select">
                 <option value="">-- Seleccionar Nombre --</option>
+                <option value="AMBIORIX MARTINEZ">AMBIORIX MARTINEZ</option>
                 <option value="ANNY SALAZAR">ANNY SALAZAR</option>
                 <option value="CARLENYS THOMPSON">CARLENYS THOMPSON</option>
                 <option value="CAROLINE QUEZADA">CAROLINE QUEZADA</option>
+                <option value="CLARA MARIN">CLARA MARIN</option>
                 <option value="ELBA GOMEZ">ELBA GOMEZ</option>
                 <option value="EMMANUEL MARTE GUERRERO">EMMANUEL MARTE GUERRERO</option>
+                <option value="ERIDANIA RAMOS">ERIDANIA RAMOS</option>
                 <option value="ESTRELLA MASSIEL CHALAS OCHOA">ESTRELLA MASSIEL CHALAS OCHOA</option>
                 <option value="FEDERICO CARLOS TORIBIO AMARO">FEDERICO CARLOS TORIBIO AMARO</option>
                 <option value="FELIX ORTIZ">FELIX ORTIZ</option>
                 <option value="ISAMAR ROSARIO">ISAMAR ROSARIO</option>
+                <option value="JOAN BENCOSME">JOAN BENCOSME</option>
                 <option value="LAURA ESTHER GUZMAN">LAURA ESTHER GUZMAN</option>
+                <option value="LAURA MARCIEL ESPAILLAT">LAURA MARCIEL ESPAILLAT</option>
                 <option value="LEO DIAZ">LEO DIAZ</option>
                 <option value="MIGUEL CORDERO">MIGUEL CORDERO</option>
-                <option value="REYNELD ABREU">REYNELD ABREU</option>
+                <option value="MINERVA PAULINO">MINERVA PAULINO</option>
+                <option value="NAILETH BETANIA MARTINEZ">NAILETH BETANIA MARTINEZ</option>
                 <option value="RAMONA DURAN">RAMONA DURAN</option>
+                <option value="REYNELD ABREU">REYNELD ABREU</option>
+                <option value="SAMMY MOLINA">SAMMY MOLINA</option>
                 <option value="SHARLINNE HEYER">SHARLINNE HEYER</option>
                 <option value="YORGELIS DE LOS SANTOS">YORGELIS DE LOS SANTOS</option>
+            </select>
+        </div>
+
+        <div class="controls">
+            <h3>Tipo de Expediente</h3>
+            <select id="type-select">
+                <option value="">-- Seleccionar Tipo --</option>
+                <option value="DPA">Amarillo (DPA)</option>
+                <option value="DP">Azul (DP)</option>
             </select>
         </div>
 
@@ -166,12 +210,10 @@
             <h3>Acción con el Expediente</h3>
             <select id="action-select">
                 <option value="">-- Seleccionar Acción --</option>
-                <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
-                <option value="Retornado a Almacén">Retornado a Almacén</option>
-                <option value="ARCHIVADO">ARCHIVADO</option>
-                <option value="PASADO A TASACION">PASADO A TASACION</option>
-                <option value="PASADO A LEO PARA ARCHIVAR">PASADO A LEO PARA ARCHIVAR</option>
-                <option value="ENVIADO A TESORERIA">ENVIADO A TESORERIA</option>
+                <option value="EN MI PODER">Enviado a Jurídico</option>
+                <option value="ENVIADO A TESORERIA">Enviado a Contabilidad</option>
+                <option value="ARCHIVADO">Archivo</option>
+                <option value="PASADO A LEO">Retornado a Almacén</option>
             </select>
         </div>
 
@@ -180,7 +222,7 @@
     </div>
 
     <footer>
-        © 2024 Sistema de Expedientes
+        © 2025 Sistema de Expedientes
     </footer>
 
     <script>
@@ -193,10 +235,11 @@
             console.log(`QR detectado: ${decodedText}`);
 
             const user = document.getElementById('user-select').value;
+            const type = document.getElementById('type-select').value;
             const action = document.getElementById('action-select').value;
 
-            if (!user || !action) {
-                resultElement.textContent = "Error: Por favor, selecciona un nombre y una acción.";
+            if (!user || !type || !action) {
+                resultElement.textContent = "Error: Por favor, selecciona un nombre, tipo y acción.";
                 resultElement.className = 'error';
                 return;
             }
@@ -211,6 +254,7 @@
                 body: JSON.stringify({
                     row: decodedText,
                     nombre: user,
+                    tipo: type,
                     accion: action
                 }),
                 headers: {
@@ -247,7 +291,6 @@
         function onScanFailure(error) {
             // Opcional: Manejar fallos del escáner
         }
-            
 
         function startScanner() {
             html5QrcodeScanner = new Html5QrcodeScanner(
@@ -259,35 +302,7 @@
             readerDiv.classList.add('scanning');
         }
 
-        window.onload = () => {
-            // Cargar selección guardada si existe
-            const savedUser = localStorage.getItem('selectedUser');
-            const savedAction = localStorage.getItem('selectedAction');
-
-            if (savedUser) {
-                document.getElementById('user-select').value = savedUser;
-            }
-
-            if (savedAction) {
-                document.getElementById('action-select').value = savedAction;
-            }
-
-            startScanner();
-
-            // Guardar selección usuario cuando cambia
-            document.getElementById('user-select').addEventListener('change', (e) => {
-                localStorage.setItem('selectedUser', e.target.value);
-            });
-
-            // Guardar selección acción cuando cambia
-            document.getElementById('action-select').addEventListener('change', (e) => {
-                localStorage.setItem('selectedAction', e.target.value);
-            });
-        };
+        window.onload = startScanner;
     </script>
 </body>
 </html>
-
-
-
-
