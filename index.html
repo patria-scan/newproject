@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Actualización de Expedientes</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d2647;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        .container {
+            background-color: #19376d;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin-bottom: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #385ba8;
+            border-radius: 4px;
+            background-color: #254179;
+            color: #fff;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 95%;
+            background-position-y: center;
+        }
+
+        select option {
+            background-color: #19376d;
+            color: #fff;
+        }
+
+        #reader {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .success {
+            color: #5cb85c;
+        }
+
+        .error {
+            color: #d9534f;
+        }
+
+        @keyframes scanEffect {
+            0% { opacity: 0.8; border-color: #4ab0f7; }
+            50% { opacity: 1; border-color: #a7d9ed; }
+            100% { opacity: 0.8; border-color: #4ab0f7; }
+        }
+
+        .scanning #reader video {
+            border: 3px solid #4ab0f7;
+            animation: scanEffect 1.5s infinite alternate;
+        }
+
+        footer {
+            color: #aab8c2;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+
+            .controls {
+                margin-bottom: 20px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Actualización de Expedientes</h1>
+
+    <div class="container">
+        <div class="controls">
+            <h3>¿Quién Soy?</h3>
+            <select id="user-select">
+                <option value="">-- Seleccionar Nombre --</option>
+                <option value="Juan Perez">Juan Perez</option>
+                <option value="Maria Rodriguez">Maria Rodriguez</option>
+                <option value="Carlos Gomez">Carlos Gomez</option>
+                <option value="ANNY SALAZAR">ANNY SALAZAR</option>
+                <option value="CARLENYS THOMPSON">CARLENYS THOMPSON</option>
+                <option value="CAROLINE QUEZADA">CAROLINE QUEZADA</option>
+                <option value="ELBA GOMEZ">ELBA GOMEZ</option>
+                <option value="EMMANUEL MARTE GUERRERO">EMMANUEL MARTE GUERRERO</option>
+                <option value="ESTRELLA MASSIEL CHALAS OCHOA">ESTRELLA MASSIEL CHALAS OCHOA</option>
+                <option value="FEDERICO CARLOS TORIBIO AMARO">FEDERICO CARLOS TORIBIO AMARO</option>
+                <option value="FELIX ORTIZ">FELIX ORTIZ</option>
+                <option value="ISAMAR ROSARIO">ISAMAR ROSARIO</option>
+                <option value="LAURA ESTHER GUZMAN">LAURA ESTHER GUZMAN</option>
+                <option value="LEO DIAZ">LEO DIAZ</option>
+                <option value="MIGUEL CORDERO">MIGUEL CORDERO</option>
+                <option value="REYNELD ABREU">REYNELD ABREU</option>
+                <option value="RAMONA DURAN">RAMONA DURAN</option>
+                <option value="SHARLINNE HEYER">SHARLINNE HEYER</option>
+                <option value="YORGELIS DE LOS SANTOS">YORGELIS DE LOS SANTOS</option>
+            </select>
+        </div>
+
+        <div class="controls">
+            <h3>Acción con el Expediente</h3>
+            <select id="action-select">
+                <option value="">-- Seleccionar Acción --</option>
+                <option value="Archivo">Archivo</option>
+                <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
+                <option value="Enviado a Jurídico">Enviado a Jurídico</option>
+                <option value="Retornado a Almacén">Retornado a Almacén</option>
+                <option value="ARCHIVADO">ARCHIVADO</option>
+                <option value="PASADO A TASACION">PASADO A TASACION</option>
+                <option value="PASADO A LEO PARA ARCHIVAR">PASADO A LEO PARA ARCHIVAR</option>
+                <option value="ENVIADO A TESORERIA">ENVIADO A TESORERIA</option>
+            </select>
+        </div>
+
+        <div id="reader"></div>
+        <p id="result"></p>
+    </div>
+
+    <footer>
+        © 2024 Sistema de Expedientes
+    </footer>
+
+    <script>
+        const sheetUrl = 'URL_DE_TU_APPS_SCRIPT_AQUI'; // ¡REEMPLAZA ESTO!
+        const readerDiv = document.getElementById('reader');
+        const resultElement = document.getElementById('result');
+        let html5QrcodeScanner;
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`QR detectado: ${decodedText}`);
+
+            const user = document.getElementById('user-select').value;
+            const action = document.getElementById('action-select').value;
+
+            if (!user || !action) {
+                resultElement.textContent = "Error: Por favor, selecciona un nombre y una acción.";
+                resultElement.className = 'error';
+                return;
+            }
+
+            html5QrcodeScanner.pause();
+            readerDiv.classList.remove('scanning');
+            resultElement.textContent = 'Enviando datos...';
+            resultElement.className = '';
+
+            fetch(sheetUrl, {
+                method: 'POST',
+                body: JSON.stringify({
+                    row: decodedText,
+                    nombre: user,
+                    accion: action
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    resultElement.textContent = `¡Datos enviados! Fila ${decodedText} actualizada.`;
+                    resultElement.className = 'success';
+                } else {
+                    resultElement.textContent = `Error al actualizar: ${data.message}`;
+                    resultElement.className = 'error';
+                }
+                setTimeout(() => {
+                    html5QrcodeScanner.resume();
+                    resultElement.textContent = '';
+                    resultElement.className = '';
+                    readerDiv.classList.add('scanning');
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultElement.textContent = 'Error al conectar con Google Sheets.';
+                resultElement.className = 'error';
+                setTimeout(() => {
+                    html5QrcodeScanner.resume();
+                    readerDiv.classList.add('scanning');
+                }, 3000);
+            });
+        }
+
+        function onScanFailure(error) {
+            // Opcional: Manejar fallos del escáner
+        }
+            
+
+        function startScanner() {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader",
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                false
+            );
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            readerDiv.classList.add('scanning');
+        }
+
+        window.onload = () => {
+            // Cargar selección guardada si existe
+            const savedUser = localStorage.getItem('selectedUser');
+            const savedAction = localStorage.getItem('selectedAction');
+
+            if (savedUser) {
+                document.getElementById('user-select').value = savedUser;
+            }
+
+            if (savedAction) {
+                document.getElementById('action-select').value = savedAction;
+            }
+
+            startScanner();
+
+            // Guardar selección usuario cuando cambia
+            document.getElementById('user-select').addEventListener('change', (e) => {
+                localStorage.setItem('selectedUser', e.target.value);
+            });
+
+            // Guardar selección acción cuando cambia
+            document.getElementById('action-select').addEventListener('change', (e) => {
+                localStorage.setItem('selectedAction', e.target.value);
+            });
+        };
+    </script>
+</body>
+</html>
