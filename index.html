@@ -1,98 +1,249 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestión de Expedientes</title>
-<script src="https://unpkg.com/html5-qrcode"></script>
-<style>
-    body { font-family: Arial, sans-serif; background: #0d2c52; color: #fff; text-align: center; margin: 0; padding: 20px; }
-    .container { max-width: 500px; margin: auto; background: #143e6d; padding: 20px; border-radius: 10px; }
-    select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; border-radius: 5px; border: none; }
-    #reader { width: 100%; margin-top: 15px; }
-    #result { margin-top: 10px; padding: 10px; border-radius: 5px; min-height: 40px; }
-    .success { background: rgba(92,184,92,0.2); color: #5cb85c; }
-    .error { background: rgba(217,83,79,0.2); color: #d9534f; }
-    .sending { background: rgba(255,193,7,0.2); color: #ffc107; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Actualización de Expedientes</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d2647;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        .container {
+            background-color: #19376d;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin-bottom: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #385ba8;
+            border-radius: 4px;
+            background-color: #254179;
+            color: #fff;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 95%;
+            background-position-y: center;
+        }
+
+        select option {
+            background-color: #19376d;
+            color: #fff;
+        }
+
+        #reader {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .success {
+            color: #5cb85c;
+        }
+
+        .error {
+            color: #d9534f;
+        }
+
+        @keyframes scanEffect {
+            0% { opacity: 0.8; border-color: #4ab0f7; }
+            50% { opacity: 1; border-color: #a7d9ed; }
+            100% { opacity: 0.8; border-color: #4ab0f7; }
+        }
+
+        .scanning #reader video {
+            border: 3px solid #4ab0f7;
+            animation: scanEffect 1.5s infinite alternate;
+        }
+
+        footer {
+            color: #aab8c2;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+
+            .controls {
+                margin-bottom: 20px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<h1>📄 Gestión de Expedientes</h1>
-<div class="container">
-    <h3>¿Quién eres?</h3>
-    <select id="user"></select>
+    <h1>Actualización de Expedientes</h1>
 
-    <h3>Acción</h3>
-    <select id="action">
-        <option value="">-- Selecciona una acción --</option>
-        <option value="Enviado a Jurídico">Enviado a Jurídico</option>
-        <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
-        <option value="Archivo">Archivo</option>
-        <option value="Retornado a Almacén">Retornado a Almacén</option>
-    </select>
+    <div class="container">
+        <div class="controls">
+            <h3>¿Quién Soy?</h3>
+            <select id="user-select">
+                <option value="">-- Seleccionar Nombre --</option>
+                <option value="Juan Perez">Juan Perez</option>
+                <option value="Maria Rodriguez">Maria Rodriguez</option>
+                <option value="Carlos Gomez">Carlos Gomez</option>
+            </select>
+        </div>
 
-    <div id="reader"></div>
-    <div id="result"></div>
-</div>
+        <div class="controls">
+            <h3>Acción con el Expediente</h3>
+            <select id="action-select">
+                <option value="">-- Seleccionar Acción --</option>
+                <option value="Archivo">Archivo</option>
+                <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
+                <option value="Enviado a Jurídico">Enviado a Jurídico</option>
+                <option value="Retornado a Almacén">Retornado a Almacén</option>
+            </select>
+        </div>
 
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6c3eP7KnWlcM2HyCzEs7EPnCw-c2M2AGSubBqLlgOCcXapTEjSiKNeSHI5Jlp-ZpM/exec"; // Cambia esto por tu Web App URL
-const usuarios = [
-    "AMBIORIX MARTINEZ","ANNY SALAZAR","CARLENYS THOMPSON","CAROLINE QUEZADA","CLARA MARIN",
-    "ELBA GOMEZ","EMMANUEL MARTE GUERRERO","ERIDANIA RAMOS","ESTRELLA MASSIEL CHALAS OCHOA",
-    "FEDERICO CARLOS TORIBIO AMARO","FELIX ORTIZ","ISAMAR ROSARIO","JOAN BENCOSME",
-    "LAURA ESTHER GUZMAN","LAURA MARCIEL ESPAILLAT","LEO DIAZ","MIGUEL CORDERO","MINERVA PAULINO",
-    "NAILETH BETANIA MARTINEZ","RAMONA DURAN","REYNELD ABREU","SAMMY MOLINA","SHARLINNE HEYER",
-    "YORGELIS DE LOS SANTOS"
-];
-const userSelect = document.getElementById("user");
-usuarios.forEach(u => {
-    let opt = document.createElement("option");
-    opt.value = u;
-    opt.textContent = u;
-    userSelect.appendChild(opt);
-});
+        <div id="reader"></div>
+        <p id="result"></p>
+    </div>
 
-// Cargar selección previa
-userSelect.value = localStorage.getItem("usuario") || "";
-document.getElementById("action").value = localStorage.getItem("accion") || "";
+    <footer>
+        © 2024 Sistema de Expedientes
+    </footer>
 
-userSelect.addEventListener("change", () => localStorage.setItem("usuario", userSelect.value));
-document.getElementById("action").addEventListener("change", () => localStorage.setItem("accion", document.getElementById("action").value));
+    <script>
+        const sheetUrl = 'URL_DE_TU_APPS_SCRIPT_AQUI'; // ¡REEMPLAZA ESTO!
+        const readerDiv = document.getElementById('reader');
+        const resultElement = document.getElementById('result');
+        let html5QrcodeScanner;
 
-function onScanSuccess(qrCodeMessage) {
-    const usuario = userSelect.value;
-    const accion = document.getElementById("action").value;
-    const resultDiv = document.getElementById("result");
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`QR detectado: ${decodedText}`);
 
-    if (!usuario || !accion) {
-        resultDiv.textContent = "Selecciona usuario y acción antes de escanear";
-        resultDiv.className = "error";
-        return;
-    }
+            const user = document.getElementById('user-select').value;
+            const action = document.getElementById('action-select').value;
 
-    resultDiv.textContent = "Enviando datos...";
-    resultDiv.className = "sending";
+            if (!user || !action) {
+                resultElement.textContent = "Error: Por favor, selecciona un nombre y una acción.";
+                resultElement.className = 'error';
+                return;
+            }
 
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({ row: qrCodeMessage, nombre: usuario, accion }),
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(res => res.json())
-    .then(data => {
-        resultDiv.textContent = data.message;
-        resultDiv.className = data.status === "success" ? "success" : "error";
-    })
-    .catch(err => {
-        resultDiv.textContent = "Error de conexión: " + err.message;
-        resultDiv.className = "error";
-    });
-}
+            html5QrcodeScanner.pause();
+            readerDiv.classList.remove('scanning');
+            resultElement.textContent = 'Enviando datos...';
+            resultElement.className = '';
 
-new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }).render(onScanSuccess);
-</script>
+            fetch(sheetUrl, {
+                method: 'POST',
+                body: JSON.stringify({
+                    row: decodedText,
+                    nombre: user,
+                    accion: action
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    resultElement.textContent = `¡Datos enviados! Fila ${decodedText} actualizada.`;
+                    resultElement.className = 'success';
+                } else {
+                    resultElement.textContent = `Error al actualizar: ${data.message}`;
+                    resultElement.className = 'error';
+                }
+                setTimeout(() => {
+                    html5QrcodeScanner.resume();
+                    resultElement.textContent = '';
+                    resultElement.className = '';
+                    readerDiv.classList.add('scanning');
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultElement.textContent = 'Error al conectar con Google Sheets.';
+                resultElement.className = 'error';
+                setTimeout(() => {
+                    html5QrcodeScanner.resume();
+                    readerDiv.classList.add('scanning');
+                }, 3000);
+            });
+        }
 
+        function onScanFailure(error) {
+            // Opcional: Manejar fallos del escáner
+        }
+
+        function startScanner() {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader",
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                false
+            );
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            readerDiv.classList.add('scanning');
+        }
+
+        window.onload = startScanner;
+    </script>
 </body>
 </html>
