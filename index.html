@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Control de Expedientes v3.0</title>
+    <title>Control de Expedientes v4.0</title>
+    
     <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #0056b3;
-            --background-color: #f8f9fa;
+            --primary-color: #2b7af0;
+            --secondary-color: #1a56b0;
+            --background-color: #f0f4f8;
             --card-bg-color: #ffffff;
-            --text-color: #343a40;
-            --border-color: #ced4da;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --processing-color: #ffc107;
-            --font-family: 'Roboto', sans-serif;
-            --border-radius: 10px;
-            --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --text-color: #1f2937;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --processing-color: #f59e0b;
+            --font-family: 'Inter', sans-serif;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -45,16 +47,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 1.5rem;
+            padding: 2rem;
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
             margin: auto;
         }
 
         header {
             width: 100%;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             color: var(--primary-color);
         }
 
@@ -63,7 +65,7 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            font-size: 2rem;
+            font-size: 2.25rem;
             font-weight: 700;
         }
 
@@ -71,19 +73,18 @@
             background-color: var(--card-bg-color);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 2rem;
+            padding: 2.5rem;
             width: 100%;
-            transition: all 0.3s ease;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 1rem;
         }
 
@@ -95,7 +96,7 @@
             content: '\25BC';
             font-size: 0.8rem;
             position: absolute;
-            right: 1.25rem;
+            right: 1.5rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--secondary-color);
@@ -104,7 +105,7 @@
         
         select {
             width: 100%;
-            padding: 0.9rem 1.25rem;
+            padding: 1rem 1.5rem;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             font-size: 1rem;
@@ -112,17 +113,20 @@
             appearance: none;
             -webkit-appearance: none;
             cursor: pointer;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         select:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            box-shadow: 0 0 0 4px rgba(43, 122, 240, 0.2);
         }
 
-        #reader {
+        #reader-container {
             margin-top: 2rem;
+        }
+        
+        #reader {
             border: 2px dashed var(--border-color);
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -135,8 +139,8 @@
         }
         
         #feedback {
-            margin-top: 1.5rem;
-            padding: 1.25rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
             border-radius: var(--border-radius);
             font-weight: 500;
             text-align: center;
@@ -153,28 +157,25 @@
         }
 
         #feedback.success {
-            background-color: #d4edda;
+            background-color: #d1fae5;
             color: var(--success-color);
-            border: 1px solid #c3e6cb;
         }
 
         #feedback.error {
-            background-color: #f8d7da;
+            background-color: #fee2e2;
             color: var(--error-color);
-            border: 1px solid #f5c6cb;
         }
 
         #feedback.processing {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
+            background-color: #fffbeb;
+            color: var(--processing-color);
         }
 
         footer {
             text-align: center;
-            padding: 1.5rem;
-            font-size: 0.85rem;
-            color: #6c757d;
+            padding: 2rem;
+            font-size: 0.875rem;
+            color: #6b7280;
         }
     </style>
 </head>
@@ -211,7 +212,9 @@
                 </div>
             </div>
 
-            <div id="reader"></div>
+            <div id="reader-container">
+                <div id="reader"></div>
+            </div>
             <div id="feedback"></div>
         </div>
     </main>
@@ -220,7 +223,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURACIÓN ---
-            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb201lu4usMJrcvYNeGfw7vL7k6WkkUK6XzxU4HrjJnI1hzJFPZzROpr12cVKWQHYhRg/exec'; // ⚠️ ¡PEGA TU URL AQUÍ!
+            const GOOGLE_APP_SCRIPT_URL = 'URL_DE_TU_SCRIPT_AQUI'; // ⚠️ ¡REEMPLAZA CON TU URL!
             const FEEDBACK_DURATION = 4000;
             const SCAN_COOLDOWN = 2500;
 
@@ -238,8 +241,8 @@
 
             // --- LÓGICA DE PERSISTENCIA (LocalStorage) ---
             const SELECTION_KEYS = {
-                user: 'expedientes_v3_user',
-                action: 'expedientes_v3_action'
+                user: 'expedientes_v4_user',
+                action: 'expedientes_v4_action'
             };
 
             const saveSelections = () => {
@@ -274,14 +277,8 @@
                 const user = ui.userSelect.value;
                 const action = ui.actionSelect.value;
 
-                if (!user) {
-                    showFeedback('Por favor, selecciona tu nombre.', 'error');
-                    isProcessing = false;
-                    return;
-                }
-                
-                if (!action) {
-                    showFeedback('Por favor, selecciona la acción a realizar.', 'error');
+                if (!user || !action) {
+                    showFeedback('Por favor, selecciona tu nombre y la acción a realizar.', 'error');
                     isProcessing = false;
                     return;
                 }
@@ -293,11 +290,7 @@
                         method: 'POST',
                         mode: 'cors',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            barcodeData: barcodeData,
-                            nombre: user,
-                            accion: action
-                        }),
+                        body: JSON.stringify({ barcodeData, nombre: user, accion: action }),
                     });
                     
                     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
@@ -305,7 +298,7 @@
                     const result = await response.json();
                     
                     if (result.status === 'success') {
-                        showFeedback(`✅ ¡Éxito! ${result.message}`, 'success');
+                        showFeedback(`✅ ${result.message}`, 'success');
                     } else {
                         showFeedback(`❌ Error: ${result.message}`, 'error');
                     }
@@ -329,7 +322,7 @@
             };
             
             const onScanFailure = (error) => {
-                // Silenciamos los errores de escaneo para no molestar al usuario.
+                // Silenciamos los errores de escaneo para una experiencia más fluida
                 // console.warn(`Scan error: ${error}`);
             };
 
@@ -360,4 +353,3 @@
     </script>
 </body>
 </html>
-
