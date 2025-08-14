@@ -2,367 +2,291 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Control de Expedientes v5.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escáner de Expedientes</title>
     
-    <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
     <style>
         :root {
-            --primary-color: #2b7af0;
-            --secondary-color: #1a56b0;
-            --background-color: #f0f4f8;
-            --card-bg-color: #ffffff;
-            --text-color: #1f2937;
-            --border-color: #e2e8f0;
-            --success-color: #10b981;
-            --error-color: #ef4444;
-            --processing-color: #f59e0b;
-            --font-family: 'Inter', sans-serif;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --primary-color: #4285F4;
+            --success-color: #0F9D58;
+            --error-color: #DB4437;
+            --warning-color: #F4B400;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: var(--font-family);
-            background-color: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 1rem;
+            background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
         }
 
-        .app-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+        main {
             width: 100%;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        header {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            color: var(--primary-color);
-        }
-
-        header h1 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            font-size: 2.25rem;
-            font-weight: 700;
-        }
-
-        .card {
-            background-color: var(--card-bg-color);
+            max-width: 500px;
+            background-color: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 2.5rem;
-            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .controls {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.75rem;
+        label {
             font-weight: 600;
-            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #555;
         }
 
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: '\25BC';
-            font-size: 0.8rem;
-            position: absolute;
-            right: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary-color);
-            pointer-events: none;
-        }
-        
         select {
             width: 100%;
-            padding: 1rem 1.5rem;
-            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border: 1px solid #ccc;
             border-radius: var(--border-radius);
             font-size: 1rem;
             background-color: #fff;
-            appearance: none;
             -webkit-appearance: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(43, 122, 240, 0.2);
-        }
-
-        #reader-container {
-            margin-top: 2rem;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.2em;
         }
         
         #reader {
-            border: 2px dashed var(--border-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            min-height: 200px; /* Asegura un espacio visible para el lector */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-color);
+            width: 100%;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
         }
         
         #reader video {
             width: 100% !important;
             height: auto !important;
-            transform: scaleX(-1);
-        }
-        
-        #feedback {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 500;
-            text-align: center;
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        #feedback.show {
+        .feedback {
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            display: none; /* Oculto por defecto */
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .feedback.show {
             display: block;
             opacity: 1;
-            transform: translateY(0);
         }
 
-        #feedback.success {
-            background-color: #d1fae5;
-            color: var(--success-color);
+        .feedback.success {
+            background-color: var(--success-color);
+            color: white;
         }
 
-        #feedback.error {
-            background-color: #fee2e2;
-            color: var(--error-color);
+        .feedback.error {
+            background-color: var(--error-color);
+            color: white;
         }
 
-        #feedback.processing {
-            background-color: #fffbeb;
-            color: var(--processing-color);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.875rem;
-            color: #6b7280;
+        .feedback.processing {
+            background-color: var(--warning-color);
+            color: var(--text-color);
         }
     </style>
 </head>
 <body>
-    <main class="app-container">
-        <header>
-            <h1><i data-feather="package"></i>Control de Expedientes</h1>
+
+    <main>
+        <header class="header">
+            <i data-feather="grid"></i>
+            <h1>Registro de Expedientes</h1>
         </header>
 
-        <div class="card">
+        <div class="controls">
             <div class="form-group">
-                <label for="user-select">Responsable de la acción:</label>
-                <div class="select-wrapper">
-                    <select id="user-select">
-                        <option value="" disabled selected>-- Seleccionar tu nombre --</option>
-                        <option value="Juan Perez">Juan Perez</option>
-                        <option value="Maria Rodriguez">Maria Rodriguez</option>
-                        <option value="Carlos Gomez">Carlos Gomez</option>
-                    </select>
-                </div>
+                <label for="nombreUsuario">Usuario</label>
+                <select id="nombreUsuario">
+                    <option value="">-- Seleccione su nombre --</option>
+                    <option value="Juan Perez">Juan Perez</option>
+                    <option value="Maria Rodriguez">Maria Rodriguez</option>
+                    <option value="Carlos Gomez">Carlos Gomez</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="action-select">Acción o estatus a registrar:</label>
-                <div class="select-wrapper">
-                    <select id="action-select">
-                        <option value="" disabled selected>-- Seleccionar destino o acción --</option>
-                        <option value="Recibido en Archivo Central">Recibido en Archivo Central</option>
-                        <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
-                        <option value="Enviado a Legal">Enviado a Legal</option>
-                        <option value="Revisión Finalizada">Revisión Finalizada</option>
-                        <option value="Archivado y Completado">Archivado y Completado</option>
-                    </select>
-                </div>
+                <label for="accion">Acción a Registrar</label>
+                <select id="accion">
+                    <option value="">-- Seleccione una acción --</option>
+                    <option value="Recibido en Archivo Central">Recibido en Archivo Central</option>
+                    <option value="Enviado a Departamento Legal">Enviado a Departamento Legal</option>
+                    <option value="Archivado y Cerrado">Archivado y Cerrado</option>
+                </select>
             </div>
-
-            <div id="reader-container">
-                <div id="reader"></div>
-            </div>
-            <div id="feedback"></div>
         </div>
+
+        <div id="reader"></div>
+        
+        <div id="feedback" class="feedback"></div>
     </main>
-    <footer>© <span id="year"></span> Sistema de Control de Expedientes. Creado con ❤️.</footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- CONFIGURACIÓN ---
-            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyV7rPKO-UOb7BZZ9Bpo6HkkA-1qpHj1zN24NxKsU3CVTXvfR-385MZCukCDLTqqBW4/exec'; // ⚠️ ¡REEMPLAZA CON TU URL!
-            const FEEDBACK_DURATION = 4000;
-            const SCAN_COOLDOWN = 2500;
+            // Reemplazar los íconos de Feather
+            feather.replace();
 
-            // --- ELEMENTOS DEL DOM ---
-            const ui = {
-                userSelect: document.getElementById('user-select'),
-                actionSelect: document.getElementById('action-select'),
-                feedbackDiv: document.getElementById('feedback'),
-                yearSpan: document.getElementById('year'),
-                readerDiv: document.getElementById('reader')
-            };
+            // Referencias a los elementos del DOM
+            const nombreSelect = document.getElementById('nombreUsuario');
+            const accionSelect = document.getElementById('accion');
+            const feedbackDiv = document.getElementById('feedback');
+            let feedbackTimeout;
 
-            // --- ESTADO DE LA APLICACIÓN ---
-            let isProcessing = false;
+            // --- 1. LÓGICA DE PERSISTENCIA CON LOCALSTORAGE ---
+            
+            // Cargar valores guardados
+            const savedNombre = localStorage.getItem('scannerApp_nombre');
+            const savedAccion = localStorage.getItem('scannerApp_accion');
 
-            // --- LÓGICA DE PERSISTENCIA (LocalStorage) ---
-            const SELECTION_KEYS = {
-                user: 'expedientes_v5_user',
-                action: 'expedientes_v5_action'
-            };
+            if (savedNombre) {
+                nombreSelect.value = savedNombre;
+            }
+            if (savedAccion) {
+                accionSelect.value = savedAccion;
+            }
 
-            const saveSelections = () => {
-                localStorage.setItem(SELECTION_KEYS.user, ui.userSelect.value);
-                localStorage.setItem(SELECTION_KEYS.action, ui.actionSelect.value);
-            };
+            // Guardar al cambiar la selección
+            nombreSelect.addEventListener('change', () => {
+                localStorage.setItem('scannerApp_nombre', nombreSelect.value);
+            });
+            accionSelect.addEventListener('change', () => {
+                localStorage.setItem('scannerApp_accion', accionSelect.value);
+            });
 
-            const loadSelections = () => {
-                const savedUser = localStorage.getItem(SELECTION_KEYS.user);
-                const savedAction = localStorage.getItem(SELECTION_KEYS.action);
-                if (savedUser) ui.userSelect.value = savedUser;
-                if (savedAction) ui.actionSelect.value = savedAction;
-            };
+            // --- 2. FUNCIÓN DE FEEDBACK AL USUARIO ---
 
-            // --- LÓGICA DE FEEDBACK AL USUARIO ---
-            const showFeedback = (message, type, duration = FEEDBACK_DURATION) => {
-                const { feedbackDiv } = ui;
-                feedbackDiv.className = `show ${type}`;
+            function showFeedback(message, type, duration = 4000) {
+                clearTimeout(feedbackTimeout); // Limpiar timeouts anteriores
                 feedbackDiv.textContent = message;
+                feedbackDiv.className = `feedback ${type} show`;
 
-                if (feedbackDiv.timeoutId) clearTimeout(feedbackDiv.timeoutId);
-
-                if (duration > 0) {
-                    feedbackDiv.timeoutId = setTimeout(() => {
+                if (type !== 'processing') {
+                    feedbackTimeout = setTimeout(() => {
                         feedbackDiv.classList.remove('show');
                     }, duration);
                 }
-            };
+            }
             
-            // --- LÓGICA DE COMUNICACIÓN CON EL BACKEND ---
-            const sendData = async (barcodeData) => {
-                const user = ui.userSelect.value;
-                const action = ui.actionSelect.value;
+            // --- 3. LÓGICA DEL ESCÁNER DE CÓDIGOS ---
 
-                if (!user || !action) {
-                    showFeedback('Por favor, selecciona tu nombre y la acción a realizar.', 'error');
-                    isProcessing = false;
+            const html5QrCode = new Html5Qrcode("reader");
+
+            const onScanSuccess = (decodedText, decodedResult) => {
+                // Pausar el escáner para evitar escaneos múltiples
+                html5QrCode.pause();
+                
+                const nombre = nombreSelect.value;
+                const accion = accionSelect.value;
+
+                // Validar que se haya seleccionado un usuario y una acción
+                if (!nombre || !accion) {
+                    showFeedback('Error: Debe seleccionar un usuario y una acción antes de escanear.', 'error');
+                    setTimeout(() => html5QrCode.resume(), 1000); // Reanudar después de un segundo
                     return;
                 }
-
-                showFeedback(`⏳ Procesando código: ${barcodeData}...`, 'processing', 0);
-
-                try {
-                    const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ barcodeData, nombre: user, accion: action }),
-                    });
-                    
-                    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
-                    const result = await response.json();
-                    
-                    if (result.status === 'success') {
-                        showFeedback(`✅ ${result.message}`, 'success');
-                    } else {
-                        showFeedback(`❌ Error: ${result.message}`, 'error');
-                    }
-
-                } catch (error) {
-                    console.error("Error en fetch:", error);
-                    showFeedback('Error de conexión. Revisa tu internet o la URL del script.', 'error');
-                } finally {
-                    setTimeout(() => { isProcessing = false; }, SCAN_COOLDOWN);
-                }
-            };
-
-            // --- FUNCIÓN DE CALLBACK DEL ESCÁNER ---
-            const onScanSuccess = (decodedText, decodedResult) => {
-                if (isProcessing) return;
-                isProcessing = true;
                 
-                if (navigator.vibrate) navigator.vibrate(100);
+                showFeedback('Procesando...', 'processing');
+
+                const data = {
+                    barcodeData: decodedText,
+                    nombre: nombre,
+                    accion: accion
+                };
+
+                //  =========== INICIO DEL CÓDIGO ACTUALIZADO ===========
                 
-                sendData(decodedText);
-            };
-            
-            // --- FUNCIÓN DE ERROR DEL ESCÁNER ---
-            const onScanFailure = (error) => {
-                 console.error(`Error al iniciar el escáner: ${error}`);
-                 if (error.name === 'NotAllowedError') {
-                     ui.readerDiv.textContent = '❌ Acceso a la cámara denegado. Por favor, permite el acceso a la cámara en la configuración de tu navegador para usar esta función.';
-                 } else if (error.name === 'NotFoundError') {
-                     ui.readerDiv.textContent = '❌ No se encontró ninguna cámara en tu dispositivo. Asegúrate de que tienes una cámara disponible.';
-                 } else {
-                     ui.readerDiv.textContent = '❌ No se pudo iniciar el lector de códigos de barras. Asegúrate de que tu dispositivo tenga una cámara y no esté en uso por otra aplicación.';
-                 }
-            };
+                // ⬇️ PEGA AQUÍ LA URL DE TU APLICACIÓN WEB DE GOOGLE APPS SCRIPT ⬇️
+                const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxH9FxOLFFYqs28CGBmINdOdUMWwiHdFw9iM2JOduGuikSc1HhNqn7ODN7eM2VGR08A/exec';
 
-            // --- INICIALIZACIÓN DE LA APLICACIÓN ---
-            const initializeApp = () => {
-                ui.yearSpan.textContent = new Date().getFullYear();
-                feather.replace();
-                loadSelections();
-
-                ui.userSelect.addEventListener('change', saveSelections);
-                ui.actionSelect.addEventListener('change', saveSelections);
-
-                const html5QrcodeScanner = new Html5QrcodeScanner(
-                    "reader", 
-                    { 
-                        fps: 10, 
-                        qrbox: { width: 300, height: 150 },
-                        formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ],
-                        **cameraConfig: { facingMode: 'environment' }** // <--- 🌟 ¡Esta línea fuerza el uso de la cámara trasera!
+                fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
                     },
-                    false
-                );
-                
-                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 'success') {
+                        showFeedback(response.message, 'success');
+                    } else {
+                        showFeedback(response.message, 'error', 6000); // Mostrar errores por más tiempo
+                    }
+                    // Reanudar el escáner después de procesar
+                    setTimeout(() => html5QrCode.resume(), 1500);
+                })
+                .catch(error => {
+                    showFeedback(`Error de comunicación: ${error.message}`, 'error', 6000);
+                    // Reanudar el escáner después del error
+                    setTimeout(() => html5QrCode.resume(), 1500);
+                });
+
+                //  =========== FIN DEL CÓDIGO ACTUALIZADO ===========
             };
 
-            initializeApp();
+            const onScanFailure = (error) => {
+                // No hacer nada en caso de fallo, la librería ya lo maneja visualmente.
+            };
+
+            // Configuración del escáner
+            const config = {
+                fps: 10,
+                qrbox: { width: 250, height: 250 },
+                facingMode: "environment", 
+                formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
+            };
+
+            // Iniciar el escáner al cargar la página
+            html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
+                .catch(err => {
+                    showFeedback('No se pudo iniciar la cámara. Verifique los permisos.', 'error');
+                    console.error("Error al iniciar el escáner:", err);
+                });
         });
     </script>
 </body>
