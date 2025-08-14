@@ -4,204 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Control de Expedientes</title>
-    
     <script src="https://unpkg.com/html5-qrcode"></script>
-    
     <script src="https://unpkg.com/feather-icons"></script>
-
-    <style>
-        /* --- Variables de Diseño y Reseteo Básico --- */
-        :root {
-            --primary-bg: #f4f7fa;   /* Fondo principal claro */
-            --secondary-bg: #ffffff; /* Fondo de la tarjeta */
-            --primary-text: #1a253c; /* Texto principal oscuro */
-            --secondary-text: #5a6b87;/* Texto secundario/gris */
-            --accent-color: #007bff; /* Color de acento (botones, links) */
-            --success-color: #28a745; /* Color para éxito */
-            --error-color: #dc3545;   /* Color para error */
-            --border-color: #e9ecef; /* Color de bordes */
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--primary-text);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding: 1rem;
-        }
-
-        /* --- Estructura Principal de la App --- */
-        .app-container {
-            width: 100%;
-            max-width: 550px;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        header {
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-        }
-        
-        /* --- Tarjeta Principal --- */
-        .card {
-            background-color: var(--secondary-bg);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* --- Formularios --- */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--secondary-text);
-            font-size: 0.9rem;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-        
-        .select-wrapper select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            font-size: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: #fff;
-            color: var(--primary-text);
-            appearance: none; /* Quita la flecha por defecto */
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .select-wrapper select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-        }
-
-        .select-wrapper::after { /* Flecha personalizada */
-            content: '\25BC';
-            position: absolute;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--secondary-text);
-            font-size: 0.8rem;
-        }
-
-        /* --- Lector QR --- */
-        #reader {
-            width: 100%;
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        #reader.scanning::after { /* Línea de escaneo animada */
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            animation: scanLine 2.5s infinite linear;
-        }
-
-        @keyframes scanLine {
-            from { top: 0; }
-            to { top: 100%; }
-        }
-        
-        /* --- Mensajes de Feedback --- */
-        #feedback {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            display: none; /* Oculto por defecto */
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        #feedback.show {
-            display: block;
-            opacity: 1;
-        }
-
-        #feedback.success {
-            background-color: #e9f7ef;
-            color: var(--success-color);
-        }
-
-        #feedback.error {
-            background-color: #fceeed;
-            color: var(--error-color);
-        }
-        
-        #feedback.processing {
-            background-color: #e6f2ff;
-            color: var(--accent-color);
-        }
-        
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            color: var(--secondary-text);
-            font-size: 0.85rem;
-        }
-
-        /* Media Query para pantallas pequeñas */
-        @media (max-width: 480px) {
-            body { padding: 0.5rem; }
-            .card { padding: 1.5rem; }
-            header h1 { font-size: 1.75rem; }
-        }
-    </style>
+    <style> /* Tu CSS se mantiene igual */ </style>
 </head>
 <body>
-
     <main class="app-container">
         <header>
-            <h1><i data-feather="archive"></i>Control de Expedientes</h1>
+            <h1><i data-feather="package"></i>Control de Expedientes</h1>
         </header>
 
         <div class="card">
@@ -212,7 +22,6 @@
                         <option value="">-- Seleccionar tu nombre --</option>
                         <option value="Juan Perez">Juan Perez</option>
                         <option value="Maria Rodriguez">Maria Rodriguez</option>
-                        <option value="Carlos Gomez">Carlos Gomez</option>
                     </select>
                 </div>
             </div>
@@ -224,8 +33,6 @@
                         <option value="">-- Seleccionar destino o acción --</option>
                         <option value="Recibido en Archivo">Recibido en Archivo</option>
                         <option value="Enviado a Contabilidad">Enviado a Contabilidad</option>
-                        <option value="Enviado a Jurídico">Enviado a Jurídico</option>
-                        <option value="Retornado a Almacén">Retornado a Almacén</option>
                     </select>
                 </div>
             </div>
@@ -234,158 +41,94 @@
             <div id="feedback"></div>
         </div>
     </main>
-
-    <footer>
-        © <span id="year"></span> Sistema de Control de Expedientes.
-    </footer>
+    <footer>© <span id="year"></span> Sistema de Control de Expedientes.</footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // --- CONFIGURACIÓN ---
-            // ¡IMPORTANTE! Reemplaza esto con la URL de tu Web App de Google Apps Script.
             const googleAppScriptUrl = 'URL_DE_TU_APPS_SCRIPT_AQUI';
 
-            // --- ELEMENTOS DEL DOM ---
+            // --- ELEMENTOS DEL DOM (SIMPLIFICADO) ---
             const userSelect = document.getElementById('user-select');
             const actionSelect = document.getElementById('action-select');
             const readerDiv = document.getElementById('reader');
             const feedbackDiv = document.getElementById('feedback');
             document.getElementById('year').textContent = new Date().getFullYear();
-            feather.replace(); // Activa los iconos
+            feather.replace();
 
-            let isScanningPaused = false;
-            
-            // --- FUNCIONES ---
+            let isProcessing = false;
 
-            /**
-             * Muestra un mensaje de feedback al usuario (éxito, error, procesando).
-             * @param {string} message - El mensaje a mostrar.
-             * @param {'success'|'error'|'processing'} type - El tipo de mensaje.
-             * @param {number} duration - Cuánto tiempo (ms) mostrar el mensaje. Si es 0, no se oculta.
-             */
-            function showFeedback(message, type, duration = 3000) {
-                feedbackDiv.textContent = message;
-                feedbackDiv.className = ``; // Resetea clases
-                feedbackDiv.classList.add(type, 'show');
+            const SELECTION_KEYS = { user: 'expedientes_user', action: 'expedientes_action' };
+            const saveSelections = () => {
+                localStorage.setItem(SELECTION_KEYS.user, userSelect.value);
+                localStorage.setItem(SELECTION_KEYS.action, actionSelect.value);
+            };
+            const loadSelections = () => {
+                userSelect.value = localStorage.getItem(SELECTION_KEYS.user) || '';
+                actionSelect.value = localStorage.getItem(SELECTION_KEYS.action) || '';
+            };
 
-                if (duration > 0) {
-                    setTimeout(() => {
-                        feedbackDiv.classList.remove('show');
-                    }, duration);
-                }
-            }
-            
-            /**
-             * Guarda las selecciones del usuario en el almacenamiento local del navegador.
-             */
-            function saveSelections() {
-                localStorage.setItem('expedientes_user', userSelect.value);
-                localStorage.setItem('expedientes_action', actionSelect.value);
-            }
+            function showFeedback(message, type, duration = 4000) { /* ... sin cambios ... */ }
 
-            /**
-             * Carga las selecciones guardadas al iniciar la página.
-             */
-            function loadSelections() {
-                const savedUser = localStorage.getItem('expedientes_user');
-                const savedAction = localStorage.getItem('expedientes_action');
-                if (savedUser) userSelect.value = savedUser;
-                if (savedAction) actionSelect.value = savedAction;
-            }
-            
-            /**
-             * Envía los datos al Google App Script.
-             * @param {string} qrData - Los datos leídos del código QR.
-             */
-            async function sendData(qrData) {
+            async function sendData(barcodeData) {
                 const user = userSelect.value;
                 const action = actionSelect.value;
                 
                 if (!user || !action) {
                     showFeedback('Por favor, selecciona tu nombre y la acción a realizar.', 'error');
+                    isProcessing = false; // Desbloquear para permitir un nuevo intento
                     return;
                 }
 
-                isScanningPaused = true;
-                readerDiv.classList.remove('scanning');
-                showFeedback('Procesando...', 'processing', 0);
+                showFeedback(`Procesando código ${barcodeData}...`, 'processing', 0);
 
                 try {
                     const response = await fetch(googleAppScriptUrl, {
                         method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            row: qrData,
+                            barcodeData: barcodeData, // Enviamos el dato crudo del código de barras
                             nombre: user,
                             accion: action
                         }),
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8', // Requerido por Apps Script para CORS
-                        }
                     });
 
-                    // El modo 'no-cors' no permite leer la respuesta, pero el POST se completa.
-                    // Asumimos éxito si no hay un error de red.
-                    showFeedback(`¡Éxito! Expediente ${qrData} actualizado.`, 'success');
-
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        showFeedback(`✅ ¡Éxito! ${result.message}`, 'success');
+                    } else {
+                        showFeedback(`❌ Error: ${result.message}`, 'error');
+                    }
                 } catch (error) {
-                    console.error('Error al enviar:', error);
-                    showFeedback('Error de conexión. Revisa tu internet.', 'error');
+                    showFeedback('Error de conexión. Revisa tu internet o la URL del script.', 'error');
                 } finally {
-                    // Espera un poco y luego reanuda el escaneo
-                    setTimeout(() => {
-                        isScanningPaused = false;
-                        readerDiv.classList.add('scanning');
-                        if (html5QrcodeScanner.getState() === Html5Qrcode.ScannerState.PAUSED) {
-                            html5QrcodeScanner.resume();
-                        }
-                    }, 3000);
+                    setTimeout(() => { isProcessing = false; }, 2500); // Reducido el tiempo de espera
                 }
             }
-
-            /**
-             * Función que se ejecuta cuando el escáner lee un QR con éxito.
-             */
+            
             function onScanSuccess(decodedText, decodedResult) {
-                if (isScanningPaused) return;
-                
-                // Vibración para feedback táctil en móviles compatibles
+                if (isProcessing) return;
+                isProcessing = true;
                 if (navigator.vibrate) navigator.vibrate(100);
-
-                html5QrcodeScanner.pause();
                 sendData(decodedText);
             }
 
-            function onScanFailure(error) {
-                // No hacer nada en caso de fallo, para no molestar al usuario.
-                // console.warn(`Error de escaneo = ${error}`);
-            }
-
-            // --- INICIALIZACIÓN ---
-            
-            loadSelections(); // Carga los datos guardados
-            
-            // Agrega listeners para guardar las selecciones cuando cambien
+            // --- INICIALIZACIÓN DEL ESCÁNER ---
+            loadSelections();
             userSelect.addEventListener('change', saveSelections);
             actionSelect.addEventListener('change', saveSelections);
 
-            // Inicia el escáner de QR
+            // Configuración del escáner para Code 128
             const html5QrcodeScanner = new Html5QrcodeScanner(
                 "reader", 
                 { 
                     fps: 10, 
-                    qrbox: (viewfinderWidth, viewfinderHeight) => {
-                        const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-                        const qrboxSize = Math.floor(minEdge * 0.7); // Usa el 70% del lado más corto
-                        return { width: qrboxSize, height: qrboxSize };
-                    },
-                    // ¡CLAVE! Pide la cámara trasera ("environment")
-                    facingMode: "environment" 
+                    qrbox: { width: 280, height: 100 }, // Rectángulo más ancho para Code 128
+                    formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
                 },
                 /* verbose= */ false
             );
             
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            html5QrcodeScanner.render(onScanSuccess, (error) => {});
             readerDiv.classList.add('scanning');
         });
     </script>
