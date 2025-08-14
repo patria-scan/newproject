@@ -229,7 +229,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURACIÓN ---
-            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb201lu4usMJrcvYNeGfw7vL7k6WkkUK6XzxU4HrjJnI1hzJFPZzROpr12cVKWQHYhRg/exec'; // ⚠️ ¡REEMPLAZA CON TU URL!
+            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyV7rPKO-UOb7BZZ9Bpo6HkkA-1qpHj1zN24NxKsU3CVTXvfR-385MZCukCDLTqqBW4/exec'; // ⚠️ ¡REEMPLAZA CON TU URL!
             const FEEDBACK_DURATION = 4000;
             const SCAN_COOLDOWN = 2500;
 
@@ -329,10 +329,11 @@
             
             // --- FUNCIÓN DE ERROR DEL ESCÁNER ---
             const onScanFailure = (error) => {
-                 // Esta función ahora muestra un mensaje de error si no puede iniciar la cámara.
                  console.error(`Error al iniciar el escáner: ${error}`);
-                 if (error.name === 'NotAllowedError' || error.name === 'NotFoundError') {
+                 if (error.name === 'NotAllowedError') {
                      ui.readerDiv.textContent = '❌ Acceso a la cámara denegado. Por favor, permite el acceso a la cámara en la configuración de tu navegador para usar esta función.';
+                 } else if (error.name === 'NotFoundError') {
+                     ui.readerDiv.textContent = '❌ No se encontró ninguna cámara en tu dispositivo. Asegúrate de que tienes una cámara disponible.';
                  } else {
                      ui.readerDiv.textContent = '❌ No se pudo iniciar el lector de códigos de barras. Asegúrate de que tu dispositivo tenga una cámara y no esté en uso por otra aplicación.';
                  }
@@ -351,13 +352,13 @@
                     "reader", 
                     { 
                         fps: 10, 
-                        qrbox: { width: 280, height: 100 },
-                        formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
+                        qrbox: { width: 300, height: 150 },
+                        formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ],
+                        **cameraConfig: { facingMode: 'environment' }** // <--- 🌟 ¡Esta línea fuerza el uso de la cámara trasera!
                     },
                     false
                 );
                 
-                // Pasa la función de éxito y la de error al renderizar
                 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
             };
 
