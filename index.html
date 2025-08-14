@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Control de Expedientes v4.0</title>
+    <title>Control de Expedientes v5.0</title>
     
     <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
@@ -130,6 +130,12 @@
             border: 2px dashed var(--border-color);
             border-radius: var(--border-radius);
             overflow: hidden;
+            min-height: 200px; /* Asegura un espacio visible para el lector */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-color);
         }
         
         #reader video {
@@ -223,7 +229,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURACIÓN ---
-            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyV7rPKO-UOb7BZZ9Bpo6HkkA-1qpHj1zN24NxKsU3CVTXvfR-385MZCukCDLTqqBW4/exec'; // ⚠️ ¡REEMPLAZA CON TU URL!
+            const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyb201lu4usMJrcvYNeGfw7vL7k6WkkUK6XzxU4HrjJnI1hzJFPZzROpr12cVKWQHYhRg/exec'; // ⚠️ ¡REEMPLAZA CON TU URL!
             const FEEDBACK_DURATION = 4000;
             const SCAN_COOLDOWN = 2500;
 
@@ -241,8 +247,8 @@
 
             // --- LÓGICA DE PERSISTENCIA (LocalStorage) ---
             const SELECTION_KEYS = {
-                user: 'expedientes_v4_user',
-                action: 'expedientes_v4_action'
+                user: 'expedientes_v5_user',
+                action: 'expedientes_v5_action'
             };
 
             const saveSelections = () => {
@@ -321,9 +327,15 @@
                 sendData(decodedText);
             };
             
+            // --- FUNCIÓN DE ERROR DEL ESCÁNER ---
             const onScanFailure = (error) => {
-                // Silenciamos los errores de escaneo para una experiencia más fluida
-                // console.warn(`Scan error: ${error}`);
+                 // Esta función ahora muestra un mensaje de error si no puede iniciar la cámara.
+                 console.error(`Error al iniciar el escáner: ${error}`);
+                 if (error.name === 'NotAllowedError' || error.name === 'NotFoundError') {
+                     ui.readerDiv.textContent = '❌ Acceso a la cámara denegado. Por favor, permite el acceso a la cámara en la configuración de tu navegador para usar esta función.';
+                 } else {
+                     ui.readerDiv.textContent = '❌ No se pudo iniciar el lector de códigos de barras. Asegúrate de que tu dispositivo tenga una cámara y no esté en uso por otra aplicación.';
+                 }
             };
 
             // --- INICIALIZACIÓN DE LA APLICACIÓN ---
@@ -345,6 +357,7 @@
                     false
                 );
                 
+                // Pasa la función de éxito y la de error al renderizar
                 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
             };
 
@@ -353,4 +366,3 @@
     </script>
 </body>
 </html>
-
