@@ -166,12 +166,13 @@
             };
 
             // --- INICIO DEL ESCÁNER ---
-            const config = {
-                fps: 10,
-                qrbox: { width: 250, height: 250 },
-                facingMode: "environment", 
-                formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ]
-            };
+const config = {
+    fps: 10,
+    qrbox: { width: 250, height: 250 },
+    facingMode: "environment", 
+    // ----- LÍNEA MODIFICADA -----
+    formatsToSupport: [ Html5QrcodeSupportedFormats.DATA_MATRIX ] 
+};
 
             html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, (error) => {})
                 .catch(err => {
@@ -181,6 +182,7 @@
     </script>
 </body>
 </html>
+
 
 
 
