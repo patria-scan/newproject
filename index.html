@@ -40,7 +40,7 @@
             width: 100%; padding: 0.75rem; border: 1px solid #ccc;
             border-radius: var(--border-radius); font-size: 1rem; background-color: #fff;
             -webkit-appearance: none; -moz-appearance: none; appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12' 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1.2em;
         }
         #reader { width: 100%; border-top: 1px solid #eee; }
@@ -68,9 +68,22 @@
                 <label for="nombreUsuario">1. Seleccione su Usuario</label>
                 <select id="nombreUsuario">
                     <option value="">-- Seleccione un nombre --</option>
-                    <option value="Juan Perez">Juan Perez</option>
-                    <option value="Maria Rodriguez">Maria Rodriguez</option>
-                    <option value="Carlos Gomez">Carlos Gomez</option>
+                    <option value="ANNY SALAZAR">ANNY SALAZAR</option>
+                    <option value="CARLENYS THOMPSON">CARLENYS THOMPSON</option>
+                    <option value="CAROLINE QUEZADA">CAROLINE QUEZADA</option>
+                    <option value="ELBA GOMEZ">ELBA GOMEZ</option>
+                    <option value="EMMANUEL MARTE GUERRERO">EMMANUEL MARTE GUERRERO</option>
+                    <option value="ESTRELLA MASSIEL CHALAS OCHOA">ESTRELLA MASSIEL CHALAS OCHOA</option>
+                    <option value="FEDERICO CARLOS TORIBIO AMARO">FEDERICO CARLOS TORIBIO AMARO</option>
+                    <option value="FELIX ORTIZ">FELIX ORTIZ</option>
+                    <option value="ISAMAR ROSARIO">ISAMAR ROSARIO</option>
+                    <option value="LAURA ESTHER GUZMAN">LAURA ESTHER GUZMAN</option>
+                    <option value="LEO DIAZ">LEO DIAZ</option>
+                    <option value="MIGUEL CORDERO">MIGUEL CORDERO</option>
+                    <option value="REYNELD ABREU">REYNELD ABREU</option>
+                    <option value="RAMONA DURAN">RAMONA DURAN</option>
+                    <option value="SHARLINNE HEYER">SHARLINNE HEYER</option>
+                    <option value="YORGELIS DE LOS SANTOS">YORGELIS DE LOS SANTOS</option>
                 </select>
             </div>
 
@@ -78,9 +91,19 @@
                 <label for="accion">2. Seleccione la Acción</label>
                 <select id="accion">
                     <option value="">-- Seleccione una acción --</option>
-                    <option value="Recibido en Archivo Central">Recibido en Archivo Central</option>
-                    <option value="Enviado a Dept. Legal">Enviado a Dept. Legal</option>
-                    <option value="Archivado y Cerrado">Archivado y Cerrado</option>
+                    <option value="ARCHIVADO">ARCHIVADO</option>
+                    <option value="PASADO A">PASADO A</option>
+                    <option value="EN MI PODER">EN MI PODER</option>
+                    <option value="ENVIADO A TESORERIA">ENVIADO A TESORERIA</option>
+                    <option value="ENVIADO A TASACION">ENVIADO A TASACION</option>
+                    <option value="PASADO A LEO PARA ARCHIVAR">PASADO A LEO PARA ARCHIVAR</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="pasadoAContainer" style="display: none;">
+                <label for="pasadoAUsuario">Pasado a:</label>
+                <select id="pasadoAUsuario">
+                     <option value="">-- Seleccione usuario destino --</option>
                 </select>
             </div>
         </div>
@@ -97,14 +120,34 @@
 
             const nombreSelect = document.getElementById('nombreUsuario');
             const accionSelect = document.getElementById('accion');
+            const pasadoAContainer = document.getElementById('pasadoAContainer');
+            const pasadoAUsuarioSelect = document.getElementById('pasadoAUsuario');
             const feedbackDiv = document.getElementById('feedback');
             const html5QrCode = new Html5Qrcode("reader");
             let feedbackTimeout;
+            
+            Array.from(nombreSelect.options).forEach(option => {
+                if (option.value) {
+                    pasadoAUsuarioSelect.appendChild(option.cloneNode(true));
+                }
+            });
+
+            accionSelect.addEventListener('change', () => {
+                if (accionSelect.value === 'PASADO A') {
+                    pasadoAContainer.style.display = 'flex';
+                } else {
+                    pasadoAContainer.style.display = 'none';
+                    pasadoAUsuarioSelect.value = "";
+                }
+            });
 
             const savedNombre = localStorage.getItem('scannerApp_nombre');
             const savedAccion = localStorage.getItem('scannerApp_accion');
             if (savedNombre) nombreSelect.value = savedNombre;
-            if (savedAccion) accionSelect.value = savedAccion;
+            if (savedAccion) {
+                accionSelect.value = savedAccion;
+                accionSelect.dispatchEvent(new Event('change'));
+            }
 
             nombreSelect.addEventListener('change', () => localStorage.setItem('scannerApp_nombre', nombreSelect.value));
             accionSelect.addEventListener('change', () => localStorage.setItem('scannerApp_accion', accionSelect.value));
@@ -122,7 +165,7 @@
                 html5QrCode.pause();
                 
                 const nombre = nombreSelect.value;
-                const accion = accionSelect.value;
+                let accion = accionSelect.value;
 
                 if (!nombre || !accion) {
                     showFeedback('Error: Debe seleccionar un usuario y una acción.', 'error');
@@ -130,16 +173,28 @@
                     return;
                 }
                 
+                let finalAccion = accion;
+                
+                if (accion === 'PASADO A') {
+                    const usuarioDestino = pasadoAUsuarioSelect.value;
+                    if (!usuarioDestino) {
+                        showFeedback('Error: Debe seleccionar un usuario de destino.', 'error');
+                        setTimeout(() => html5QrCode.resume(), 1500);
+                        return;
+                    }
+                    finalAccion = `Pasado a ${usuarioDestino}`;
+                }
+
                 showFeedback('Procesando...', 'processing');
 
                 const data = {
                     barcodeData: decodedText,
                     nombre: nombre,
-                    accion: accion
+                    accion: finalAccion
                 };
                 
-                // ⬇️ MUY IMPORTANTE: Pega aquí la URL de tu aplicación web de Google Apps Script ⬇️
-                const WEB_APP_URL = 'URL_DE_TU_APLICACION_WEB_AQUI';
+                // ===== URL DEL SCRIPT ACTUALIZADA =====
+                const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby59K9uMt24dJcj-ZnIYCPdQoAr6oR7X39uq6Y5FaZpDdzFSMfoOt-hhtvL8zuSJ6K5/exec';
 
                 fetch(WEB_APP_URL, {
                     method: 'POST',
@@ -161,7 +216,6 @@
                 });
             };
 
-            // Configuración del escáner para DATA_MATRIX
             const config = {
                 fps: 10,
                 qrbox: { width: 250, height: 250 },
