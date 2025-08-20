@@ -170,7 +170,7 @@
 
                 if (!nombre || !accion) {
                     showFeedback('Error: Debe seleccionar un usuario y una acción.', 'error');
-                    setTimeout(() => html5QrCode.resume(), 1500);
+                    setTimeout(() => html5QrCode.resume(), 500);
                     return;
                 }
                 
@@ -218,7 +218,7 @@
             };
 
             const config = {
-                fps: 10,
+                fps: 30,
                 qrbox: { width: 250, height: 250 },
                 facingMode: "environment", 
                 formatsToSupport: [ Html5QrcodeSupportedFormats.DATA_MATRIX ]
@@ -232,6 +232,7 @@
     </script>
 </body>
 </html>
+
 
 
 
